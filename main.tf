@@ -19,10 +19,18 @@ module "network" {
 }
 
 module "ec2" {
-  source        = "./modules/ec2"
-  server_port   = 8080
-  image_id      = "ami-0cb1d752d27600adb"
-  instance_type = "t2.micro"
-  public_subnet = module.network.public_subnet_id
-  vpc_id        = module.network.vpc_id
+  source           = "./modules/ec2"
+  server_port      = 8080
+  image_id         = "ami-0cb1d752d27600adb"
+  instance_type    = "t2.micro"
+  public_subnet_id = module.network.public_subnet_id
+  vpc_id           = module.network.vpc_id
+}
+
+module "alb" {
+  source           = "./modules/alb"
+  vpc_id           = module.network.vpc_id
+  public_subnet_id = module.network.public_subnet_id
+  ec2_sg_id        = module.ec2.ec2_sg
+  ec2_id           = module.ec2.ec2_id
 }

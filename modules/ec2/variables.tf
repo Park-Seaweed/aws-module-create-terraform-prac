@@ -14,9 +14,6 @@ variable "instance_type" {
 }
 
 
-variable "public_subnet" {
-  type        = any
-  description = "public_subnet"
-}
+variable "public_subnet_id" {}
 
 variable "vpc_id" {}
