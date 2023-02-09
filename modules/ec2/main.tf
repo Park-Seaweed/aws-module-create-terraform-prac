@@ -8,7 +8,7 @@ resource "aws_instance" "ec2" {
   ami                         = var.image_id
   key_name                    = aws_key_pair.ec2_key.key_name
   instance_type               = var.instance_type
-  subnet_id                   = element(var.public_subnet_id, count.index + 1)
+  subnet_id                   = var.public_subnet_id[count.index]
   associate_public_ip_address = "true"
   vpc_security_group_ids      = [aws_security_group.ec2_sg.id]
   user_data                   = <<-EOF
