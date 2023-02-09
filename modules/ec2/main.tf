@@ -11,6 +11,13 @@ resource "aws_instance" "ec2" {
   subnet_id                   = element(var.public_subnet, count.index + 1)
   associate_public_ip_address = "true"
   vpc_security_group_ids      = [aws_security_group.ec2_sg.id]
+  user_data                   = <<-EOF
+          #!/bin/bash
+          echo "Hello, World" > index.html
+          nohup busybox httpd -f -p ${var.server_port} &
+          EOF
+
+
   tags = {
     Name = "ec2-${count.index + 1}"
   }
